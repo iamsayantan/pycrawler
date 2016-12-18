@@ -44,29 +44,42 @@ def get_all_links(url):
 
     return url_list
 
+def union(list_1, list_2):
+    '''
+    returns the union of two lists
+    '''
+    for element in list_2:
+        if element not in list_1:
+            list_1.append(element)
+    return list_1
+
+def crawl_web(seed):
+    '''
+    Starts crawling from the seed url given and continues crawling
+    to all the url found there.
+    '''
+    to_crawl = [seed]
+    crawled = []
+
+    # until there is links availabe in to_crawl list, continue the processs
+    while to_crawl:
+        # take the last element of the list to crawl, this would remove the
+        # url from the list also
+        web_url = to_crawl.pop()
+        # nedd to make sure the url is not already scanned
+        # by checking if it exists in crawled list
+        if web_url not in crawled:
+            print('Crawling ' + web_url + '...')
+            union(to_crawl, get_all_links(web_url))
+            crawled.append(web_url)
+
+    return crawled
+
 def main():
     '''
     main entry point to the script
     '''
-    to_crawl = ['http://codelogicx.com']
-    crawled = []
-
-    # until there is links availabe in to_crawl list, continue the processs
-    while len(to_crawl) > 0:
-        # take each url from the list and crawl it
-        for web_url in to_crawl:
-
-            # nedd to make sure the url is not already scanned
-            # by checking if it exists in crawled list
-            if web_url not in crawled:
-                print('Crawling ' + web_url + '...')
-                to_crawl.remove(web_url)
-                urls = get_all_links(web_url)
-                crawled.append(web_url)
-
-            for url in urls:
-                print('Found url:: ' + url)
-                to_crawl.append(url)
-    return crawled
+    seed = input('Enter a url to start crawling..\n')
+    print(crawl_web(seed))
 
 main()
