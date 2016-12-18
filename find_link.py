@@ -3,7 +3,6 @@ extract links form page
 '''
 
 from my_url import get_page
-from datetime import datetime
 
 def find_links(page):
     '''
@@ -49,17 +48,25 @@ def main():
     '''
     main entry point to the script
     '''
-    web_url = input('Enter an url to scan..\n')
+    to_crawl = ['http://codelogicx.com']
+    crawled = []
 
-    #measure the execution time
-    start = datetime.now()
+    # until there is links availabe in to_crawl list, continue the processs
+    while len(to_crawl) > 0:
+        # take each url from the list and crawl it
+        for web_url in to_crawl:
 
-    urls = get_all_links(web_url)
-    for url in urls:
-        print(url)
+            # nedd to make sure the url is not already scanned
+            # by checking if it exists in crawled list
+            if web_url not in crawled:
+                print('Crawling ' + web_url + '...')
+                to_crawl.remove(web_url)
+                urls = get_all_links(web_url)
+                crawled.append(web_url)
 
-    end = datetime.now()
-    execution_time = end - start
-    print(execution_time)
+            for url in urls:
+                print('Found url:: ' + url)
+                to_crawl.append(url)
+    return crawled
 
 main()

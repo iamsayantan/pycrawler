@@ -7,10 +7,11 @@ def get_page(url):
     '''
     Open the given url and return the content of the page.
     '''
-    data = urlopen(url)
-    html = data.read()
-
-    # utf-8 decoding is necessary because data returned
-    # by read() is is binary
-    return html.decode('utf-8')
-    
+    try:
+        data = urlopen(url)
+        html = data.read()
+        # decoding is necessary because data returned
+        # by read() is is binary
+        return html.decode('ISO-8859-1')
+    except:
+        return ''
