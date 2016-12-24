@@ -12,7 +12,6 @@ def add_to_index(index, keyword, url):
             return index
 
     index.append([keyword, [url]])
-    return index
 
 
 def add_page_to_index(index, url, content):
@@ -26,8 +25,6 @@ def add_page_to_index(index, url, content):
     word_list = content.split()
     for keyword in word_list:
         add_to_index(index, keyword, url)
-
-    return index
 
 
 def lookup(index, keyword):
@@ -44,16 +41,3 @@ def lookup(index, keyword):
 
     return []
 
-
-def main():
-    """
-    starting point of the script
-    """
-    index = []
-    my_index = add_page_to_index(index, 'first.link', 'Adds the content of a web page to an index')
-    my_index = add_page_to_index(my_index, 'second.link', 'adds keyword to the index provided, if the keyword exists then append the url to it')
-
-    urls = lookup(my_index, 'the')
-    print(urls)
-
-main()

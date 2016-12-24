@@ -3,6 +3,7 @@ extract links form page
 """
 
 from my_url import get_page
+from indexing import *
 
 
 def find_links(page):
@@ -28,11 +29,11 @@ def find_links(page):
     return link, end_quote
 
 
-def get_all_links(url):
+def get_all_links(page):
     """
     store all the links provided by find_links() method as a list.
     """
-    page = get_page(url)
+
     url_list = []
     # Loop through until there are links in the string
     while True:
@@ -63,20 +64,30 @@ def crawl_web(seed):
     """
     to_crawl = [seed]
     crawled = []
+    index = []  # Empty index to start with
 
     # until there is links availabe in to_crawl list, continue the processs
     while to_crawl:
         # take the last element of the list to crawl, this would remove the
         # url from the list also
         web_url = to_crawl.pop()
+
+        # content from the webpage requested
+        content = get_page(web_url)
+
         # nedd to make sure the url is not already scanned
         # by checking if it exists in crawled list
         if web_url not in crawled:
             print('Crawling ' + web_url + '...')
-            union(to_crawl, get_all_links(web_url))
+
+            # build the index
+            add_page_to_index(index, web_url, content)
+
+            # get the next set of urls from the crawled page
+            union(to_crawl, get_all_links(content))
             crawled.append(web_url)
 
-    return crawled
+    return index
 
 
 def main():
