@@ -1,14 +1,15 @@
-'''
+"""
 extract links form page
-'''
+"""
 
 from my_url import get_page
 
+
 def find_links(page):
-    '''
+    """
     Finds urls on a string. It searches for an anchor tag and extracts the url
     form that.
-    '''
+    """
     # Look for an anchor tag that contains the link
     start_link = page.find('<a href=')
 
@@ -28,9 +29,9 @@ def find_links(page):
 
 
 def get_all_links(url):
-    '''
+    """
     store all the links provided by find_links() method as a list.
-    '''
+    """
     page = get_page(url)
     url_list = []
     # Loop through until there are links in the string
@@ -44,20 +45,22 @@ def get_all_links(url):
 
     return url_list
 
+
 def union(list_1, list_2):
-    '''
+    """
     returns the union of two lists
-    '''
+    """
     for element in list_2:
         if element not in list_1:
             list_1.append(element)
     return list_1
 
+
 def crawl_web(seed):
-    '''
+    """
     Starts crawling from the seed url given and continues crawling
     to all the url found there.
-    '''
+    """
     to_crawl = [seed]
     crawled = []
 
@@ -75,10 +78,11 @@ def crawl_web(seed):
 
     return crawled
 
+
 def main():
-    '''
+    """
     main entry point to the script
-    '''
+    """
     seed = input('Enter a url to start crawling..\n')
     print(crawl_web(seed))
 
